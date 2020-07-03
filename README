@@ -18,11 +18,12 @@ See link below for more info and how to connect the RPI to the IoT Power Relay
 https://www.digital-loggers.com/iotfaqs.html
 
 Remove the IoT Power Relay green phoenix connector.  The entire light green connector block pulls out to expose
- screw terminals that need loosened and male jumper wire pin inserted. Connect the two jumper wires (male jumper wire pin)
+screw terminals that need loosened and male jumper wire pin inserted. Connect the two jumper wires (male jumper wire pin)
 to the connector via the screw terminals and connect the female ends of the wires to the RPI GPIO header as
 described below (See raspberrypi_gpio_pinout.png for diagram of exact location of GPIO header pins):
 Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
-Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix connector.
+Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix
+connector.
 
 Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
 
@@ -30,14 +31,14 @@ Install the Internet Sentinel application software in this repository by cloning
 /home/pi/internetSentinel on the Raspberry Pi.
 
 The following application dependent packages need to be installed by performing the following:
-  sudo apt-get update
-  sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
-  sudo apt-get install espeak
-  sudo pip3 install speedtest-cli
-  sudo pip3 install num2words
+sudo apt-get update
+sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
+sudo apt-get install espeak
+sudo pip3 install speedtest-cli
+sudo pip3 install num2words
 
 Install the desktop icon application launcher:
-  cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
+cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
 
 Select the File Manager Icon (looks like a folder) in the desktop menubar
 Select Edit on File Manager menu bar
@@ -54,11 +55,14 @@ Select Yes
 
 Add Internet Sentinel to startup when RPI boots by doing the following:
 At command prompt enter the following to edit the autostart file:
-  sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 Add the following line to bottom of the file:
-  @/usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
+@xset s off
+@xset -dpms
+@xset s noblank
+@/usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
 Save the file by depressing Ctrl-X
 
 reboot the RPI via the following command:
-  /sbin/reboot
+/sbin/reboot
 
