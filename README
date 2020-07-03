@@ -17,9 +17,10 @@ IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pv
 See link below for more info and how to connect the RPI to the IoT Power Relay
 https://www.digital-loggers.com/iotfaqs.html
 
-Remove the IoT Power Relay green phoenix connector and connect two jumper wires (Female on one end and Male on the other)
+Remove the IoT Power Relay green phoenix connector.  The entire light green connector block pulls out to expose
+ screw terminals that need loosened and male jumper wire pin inserted. Connect the two jumper wires (male jumper wire pin)
 to the connector via the screw terminals and connect the female ends of the wires to the RPI GPIO header as
-described below (See raspberrypi_gpio_pinout.png for more info):
+described below (See raspberrypi_gpio_pinout.png for diagram of exact location of GPIO header pins):
 Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
 Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix connector.
 
