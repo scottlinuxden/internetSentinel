@@ -31,6 +31,8 @@ The following application dependent packages need to be installed by performing 
 sudo apt-get update
 sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
 sudo apt-get install espeak
+pip3 install speedtest-cli
+
 cp internetSentinel.desktop /home/pi/Desktop
 
 Add Internet Sentinel to startup when RPI boots by doing the following:
