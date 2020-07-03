@@ -118,6 +118,8 @@ class InternetSentinel(QDialog):
         self.speed_test_worker = None
         # resetInternetConnection.initialize_gpio_pins()
 
+        # self.set_alert("Checking internet in %d minute(s)" % int(self.ui.testFrequencySpinBox.value()))
+        # QTimer.singleShot(int(self.ui.testFrequencySpinBox.value()) * 60 * 1000, self.conduct_speed_test)
         self.conduct_speed_test()
 
     def test_frequency_changed(self):
@@ -234,9 +236,9 @@ class InternetSentinel(QDialog):
             self.set_alert("ERROR: Internet connection has not been restored after first attempt. Will keep trying."
                            "Check Internet Device and wiring and/or call ISP to troubleshoot.")
             if self.ui.notificationsCheckBox.isChecked():
-                os.system('espeak -ven-us -g6 -s150 "Internet connection had not be restored after first attempt, '
-                          'Check Internet Device and wiring and/or call ISP to troubleshoot. '
-                          'Will keep trying." 2>/dev/null')
+                self.speak("Internet connection had not be restored after first attempt, "
+                           "Check Internet Device and wiring and/or call ISP to troubleshoot. "
+                           "Will keep trying.")
 
         elif server == 'internet reset':
             self.ui.internetStatusLabel.setText('OFF-LINE')
@@ -251,8 +253,7 @@ class InternetSentinel(QDialog):
             self.ui.lastNetworkIssueDateLabel.setText(datetime.datetime.today().strftime("%m/%d/%Y %H:%M:%S"))
             self.set_alert("ERROR: Internet connection is down")
             if self.ui.notificationsCheckBox.isChecked():
-                os.system('espeak -ven-us -g6 -s150 "Internet connection is down, '
-                          'resetting internet connection" 2>/dev/null')
+                self.speak("Internet connection is down, resetting internet connection")
                 self.reset_internet_connection()
 
         elif server == 'internet speed test':
@@ -267,12 +268,17 @@ class InternetSentinel(QDialog):
                 self.ui.internetStatusLabel.setText('OFF-LINE')
                 self.set_alert("INFO: Download speed of %.2f is less than download floor, resetting internet connection")
                 if self.ui.notificationsCheckBox.isChecked():
-                    os.system('espeak -ven-us -g6 -s150 "Download speed of %.2f is less than download floor, '
-                              'resetting internet connection" 2>/dev/null' % download_speed)
+                    self.speak("Download speed of %.2f is less than download floor, "
+                               "resetting internet connection" % download_speed)
                     self.ui.lastNetworkIssueDateLabel.setText(datetime.datetime.today().strftime("%m/%d/%Y %H:%M:%S"))
                     self.reset_internet_connection()
             else:
                 self.ui.internetStatusLabel.setText('ON-LINE')
+
+    def speak(self, text):
+        language = '-ven-us'
+        command = 'espeak -ven-us -g6 -s150 "' + text + '" --stdout | aplay'
+        os.system(command)
 
     def reset_internet_connection(self):
         """
@@ -305,6 +311,8 @@ class InternetSentinel(QDialog):
                                            QMessageBox.Ok)
 
         if response == QMessageBox.Ok:
+            if self.ui.notificationsCheckBox.isChecked():
+                self.speak("Rebooting Internet Sentinel Device")
             os.system("sudo /sbin/reboot")
 
     def generate_pid_file(self):

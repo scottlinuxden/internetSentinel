@@ -30,12 +30,14 @@ Install the Internet Sentinel application software in this repository by cloning
 /home/pi/internetSentinel on the Raspberry Pi.
 
 The following application dependent packages need to be installed by performing the following:
-sudo apt-get update
-sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
-sudo apt-get install espeak
-pip3 install speedtest-cli
+  sudo apt-get update
+  sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
+  sudo apt-get install espeak
+  sudo pip3 install speedtest-cli
+  sudo pip3 install num2words
 
-cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
+Install the desktop icon application launcher:
+  cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
 
 Select the File Manager Icon (looks like a folder) in the desktop menubar
 Select Edit on File Manager menu bar
@@ -44,15 +46,19 @@ Select General Tab
 Select checkbox next to "Do not ask option on executable launch"
 Exit out of File Manager
 
+Configure RPI to wait for network on-line before booting
+  sudo rasp-config
+Select Boot-Options menu
+Select Wait for Network at Boot
+Select Yes
+
 Add Internet Sentinel to startup when RPI boots by doing the following:
 At command prompt enter the following to edit the autostart file:
-   nano /home/pi/.config/lxsession/LXDE-pi/autostart
-
+  sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 Add the following line to bottom of the file:
-@lxterminal -e /usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
-
-Save the file
+  @/usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
+Save the file by depressing Ctrl-X
 
 reboot the RPI via the following command:
-/sbin/reboot
+  /sbin/reboot
 
