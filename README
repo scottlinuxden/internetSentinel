@@ -46,8 +46,8 @@ Select General Tab
 Select checkbox next to "Do not ask option on executable launch"
 Exit out of File Manager
 
-Configure RPI to wait for network on-line before booting
-  sudo rasp-config
+Configure RPI to wait for network on-line before booting.  Make sure you have the RPI connected to a LAN
+wireless access point, router, or switch via CAT5e or higher Wired Ethernet cable then:
 Select Boot-Options menu
 Select Wait for Network at Boot
 Select Yes
