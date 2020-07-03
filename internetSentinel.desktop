@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Internet Sentinel
+Comment=LinXden Internet Sentinel
+Exec=python3 /home/pi/internetSentinel/internetSentinel.py
+Icon=/home/pi/internetSentinel/internetSentinel.png
+Path=/home/pi/internetSentinel
+Terminal=False
+Type=Application
+Categories=Utility;Application;
+StartupNotify=true

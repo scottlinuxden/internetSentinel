@@ -1,0 +1,47 @@
+Internet Sentinel Application for the Raspberry Pi (RPI) that monitors the Internet connection
+in the Local Area Network and if not ON-LINE (Internet Server ping) will power cycle the cable
+modem via the connected IoT Power Relay from Digital-loggers.com.  Will aslo performs a speed test
+of your Internet connection and will power cycle your cable modem if the download speed reported is
+below a threshold to attempt to get a faster connection to the ISP. Voice notifications are possible
+with a set of speakers that connect to the headphone jack of the RPI.
+
+Equipment list:
+Raspberry Pi 4 - https://www.amazon.com/dp/B07TLDTRYF/ref=cm_sw_em_r_mt_dp_U_DtCZEb9FHF451
+32 GB Micro SD Card - https://www.amazon.com/dp/B06XWN9Q99/ref=cm_sw_em_r_mt_dp_U_5ECZEbB89KJWA
+RPI Touchscreen Case - https://www.amazon.com/dp/B07WXK38YM/ref=cm_sw_em_r_mt_dp_U_vuCZEb07MR7HY
+Touchscreen Display - https://www.amazon.com/dp/B0153R2A9I/ref=cm_sw_em_r_mt_dp_U_2tCZEbT87HJ67
+Jumper wires - https://www.amazon.com/dp/B07GD2BWPY/ref=cm_sw_em_r_mt_dp_U_VuCZEbRXVE5CQ
+Speakers - https://www.amazon.com/dp/B07SZ8CVWB/ref=cm_sw_em_r_mt_dp_U_GsCZEbZHWPGDJ
+IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pvCZEbP4FEGWJ
+
+See link below for more info and how to connect the RPI to the IoT Power Relay
+https://www.digital-loggers.com/iotfaqs.html
+
+Remove the IoT Power Relay green phoenix connector and connect two jumper wires (Female on one end and Male on the other)
+to the connector via the screw terminals and connect the female ends of the wires to the RPI GPIO header as
+described below:
+Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
+Connect RPI ground pin 14 to the - side of the IoT Power Relay green phoenix connector.
+
+Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
+
+To install the application software copy the project files to the folder /home/pi/internetSentinel on the Raspberry Pi.
+
+The following application dependent packages need to be installed by performing the following:
+sudo apt-get update
+sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
+sudo apt-get install espeak
+cp internetSentinel.desktop /home/pi/Desktop
+
+Add Internet Sentinel to startup when RPI boots by doing the following:
+At command prompt enter the following to edit the autostart file:
+   nano /home/pi/.config/lxsession/LXDE-pi/autostart
+
+Add the following line to bottom of the file:
+@lxterminal -e /usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
+
+Save the file
+
+reboot the RPI via the following command:
+/sbin/reboot
+
