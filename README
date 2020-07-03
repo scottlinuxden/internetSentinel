@@ -37,6 +37,13 @@ pip3 install speedtest-cli
 
 cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
 
+Select the File Manager Icon (looks like a folder) in the desktop menubar
+Select Edit on File Manager menu bar
+Select Preferences menu item
+Select General Tab
+Select checkbox next to "Do not ask option on executable launch"
+Exit out of File Manager
+
 Add Internet Sentinel to startup when RPI boots by doing the following:
 At command prompt enter the following to edit the autostart file:
    nano /home/pi/.config/lxsession/LXDE-pi/autostart
