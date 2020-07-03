@@ -21,7 +21,7 @@ Remove the IoT Power Relay green phoenix connector and connect two jumper wires 
 to the connector via the screw terminals and connect the female ends of the wires to the RPI GPIO header as
 described below:
 Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
-Connect RPI ground pin 14 to the - side of the IoT Power Relay green phoenix connector.
+Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix connector.
 
 Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
 
