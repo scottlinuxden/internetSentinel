@@ -25,7 +25,7 @@ Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side
 
 Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
 
-To install the application software copy the project files to the folder /home/pi/internetSentinel on the Raspberry Pi.
+To install the application software by cloning the repository files to the folder /home/pi/internetSentinel on the Raspberry Pi.
 
 The following application dependent packages need to be installed by performing the following:
 sudo apt-get update
