@@ -464,6 +464,29 @@
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Theme:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="themeComboBox">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QLabel" name="label_5">
          <property name="maximumSize">
           <size>
@@ -569,6 +592,11 @@
              <height>23</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
            <property name="toolTip">
             <string>Minimum Internet Speed before Internet Device is power cycled</string>
            </property>
@@ -609,7 +637,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>12</pointsize>
+             <pointsize>11</pointsize>
             </font>
            </property>
            <property name="toolTip">
@@ -643,6 +671,12 @@
              <width>0</width>
              <height>23</height>
             </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>11</pointsize>
+            </font>
            </property>
            <property name="toolTip">
             <string>Check to announce Internet issues via voice.</string>
@@ -695,7 +729,7 @@
              </property>
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -753,6 +787,11 @@
                <width>16777215</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="toolTip">
               <string>IP Address of Internet Server to test if Internet is up and on-line</string>
@@ -813,6 +852,11 @@
                <height>30</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="toolTip">
               <string>IP Address of Internet Server to test if Internet is up and on-line</string>
              </property>
@@ -866,6 +910,11 @@
                <height>30</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="toolTip">
               <string>IP Address of Internet Server to test if Internet is up and on-line</string>
              </property>
@@ -902,6 +951,11 @@
              <width>0</width>
              <height>23</height>
             </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
            </property>
            <property name="toolTip">
             <string>Time to wait before testing Internet Speed thru ISP</string>

@@ -5,11 +5,11 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import breeze_resources
 
 import internetSpeedTest
 import resetInternetConnection
 from Ui_internetSentinel import Ui_InternetSentinelDialog
+import breeze_resources
 
 ORGANIZATION_NAME = 'LinXden'
 ORGANIZATION_DOMAIN = 'linxden.com'
@@ -63,15 +63,16 @@ class InternetSentinel(QDialog):
     Main Dialog Window for the Internet Sentinel
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, application, parent=None):
         """
         Initialize the Internet Sentinel Application and GUI
         Args:
             parent: Parent widget of this dialog
         """
 
-        QDialog.__init__(self, parent)
+        self.application = application
 
+        QDialog.__init__(self, parent)
         self.generate_pid_file()
 
         # create USK Key Creator Dialog
@@ -80,11 +81,20 @@ class InternetSentinel(QDialog):
         # manifest UI
         self.ui.setupUi(self)
 
-        self.setWindowTitle("%s (Version: %s)" % (APPLICATION_NAME, VERSION))
         self.settings = QSettings()
 
-        os.system('sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"')
-        self.ui.speedometerWidget.set_NeedleColor(255,255,255,255)
+        self.themes = ['Dark', 'Light']
+        self.ui.themeComboBox.addItems(self.themes)
+
+        self.ui.themeComboBox.setCurrentIndex(self.ui.themeComboBox.findText(
+            self.settings.value('settings/theme', 'Dark', type=str)))
+
+        theme = self.ui.themeComboBox.currentText()
+        self.set_theme(theme)
+
+        self.setWindowTitle("%s (Version: %s)" % (APPLICATION_NAME, VERSION))
+
+        self.ui.speedometerWidget.set_NeedleColor(0,0,255,255)
         self.ui.speedometerWidget.set_CenterPointColor(0,0,255)
         self.ui.speedometerWidget.set_ScaleValueColor(255,255,255,255)
         self.ui.speedometerWidget.value_min = 0
@@ -93,10 +103,21 @@ class InternetSentinel(QDialog):
         self.ui.speedometerWidget.set_MinValue(0)
         self.ui.speedometerWidget.set_MaxValue(100)
         self.ui.speedometerWidget.update_value(0)
+        self.ui.speedometerWidget.set_enable_value_text()
+        self.ui.speedometerWidget.set_gauge_color_inner_radius_factor(917)
+        self.ui.speedometerWidget.set_gauge_color_outer_radius_factor(1000)
+        self.ui.speedometerWidget.set_scale_polygon_colors([[.00, Qt.green],
+                                                            [.1, Qt.yellow],
+                                                            [.15, Qt.red],
+                                                            [1, Qt.transparent]])
+        self.ui.speedometerWidget.set_DisplayValueColor(255,255,255,255)
+        self.ui.themeComboBox.currentTextChanged.connect(self.theme_changed)
         self.ui.resetDelaySpinBox.setValue(self.settings.value('settings/reset_delay', 30, type=int))
         self.ui.resetDelaySpinBox.setMinimum(15)
+        self.ui.resetDelaySpinBox.valueChanged.connect(self.reset_delay_changed)
         self.ui.downloadFloorSpinBox.setValue(self.settings.value('settings/download_floor', 10, type=int))
         self.ui.downloadFloorSpinBox.setMinimum(1)
+        self.ui.downloadFloorSpinBox.valueChanged.connect(self.download_floor_changed)
         self.ui.testFrequencySpinBox.setMinimum(1)
         self.ui.testFrequencySpinBox.setValue(self.settings.value('settings/test_frequency', 1, type=int))
         self.ui.testFrequencySpinBox.valueChanged.connect(self.test_frequency_changed)
@@ -108,6 +129,7 @@ class InternetSentinel(QDialog):
         self.ui.pingHostOctet3SpinBox.valueChanged.connect(self.ping_host_changed)
         self.ui.pingHostOctet2SpinBox.valueChanged.connect(self.ping_host_changed)
         self.ui.pingHostOctet1SpinBox.valueChanged.connect(self.ping_host_changed)
+
         self.ui.pingLabel.setText('0')
         self.ui.downloadLabel.setText('0')
         self.ui.uploadLabel.setText('0')
@@ -128,6 +150,27 @@ class InternetSentinel(QDialog):
         self.internet_offline = False
         self.conduct_speed_test()
 
+    def set_theme(self, name):
+        file = QFile(":/%s.qss" % name.lower())
+        file.open(QFile.ReadOnly | QFile.Text)
+        stream = QTextStream(file)
+        self.application.setStyleSheet(stream.readAll())
+        file.close()
+        if name.upper() == 'DARK':
+            self.ui.speedometerWidget.set_NeedleColor(0, 0, 255, 255)
+            self.ui.speedometerWidget.set_ScaleValueColor(255, 255, 255, 255)
+            self.ui.speedometerWidget.set_DisplayValueColor(255, 255, 255, 255)
+            os.system('sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"')
+        else:
+            self.ui.speedometerWidget.set_NeedleColor(0, 0, 0, 255)
+            self.ui.speedometerWidget.set_ScaleValueColor(0, 0, 0, 255)
+            self.ui.speedometerWidget.set_DisplayValueColor(0, 0, 0, 255)
+            os.system('sudo sh -c "echo 255 > /sys/class/backlight/rpi_backlight/brightness"')
+
+    def theme_changed(self):
+        self.set_theme(self.ui.themeComboBox.currentText())
+        self.settings.setValue('settings/theme', self.ui.themeComboBox.currentText())
+
     def test_frequency_changed(self):
         """
         User has changed the Test Frequency on the GUI and speed test worker is made aware of this
@@ -135,6 +178,7 @@ class InternetSentinel(QDialog):
 
         """
         self.speed_test_worker.set_test_frequency(int(self.ui.testFrequencySpinBox.value()))
+        self.settings.setValue('settings/test_frequency', self.ui.testFrequencySpinBox.value())
 
     def notifications_changed(self):
         """
@@ -143,6 +187,13 @@ class InternetSentinel(QDialog):
 
         """
         self.speed_test_worker.set_notifications(self.ui.notificationsCheckBox.isChecked())
+        self.settings.setValue('settings/notifications', self.ui.notificationsCheckBox.isChecked())
+
+    def reset_delay_changed(self):
+        self.settings.setValue('settings/reset_delay', self.ui.resetDelaySpinBox.value())
+
+    def download_floor_changed(self):
+        self.settings.setValue('settings/download_floor', self.ui.downloadFloorSpinBox.value())
 
     def ping_host_changed(self):
         """
@@ -152,6 +203,7 @@ class InternetSentinel(QDialog):
         """
         ping_host = self.get_ping_host_ip_address()
         self.speed_test_worker.set_ping_host(ping_host)
+        self.settings.setValue('settings/ping_host_ip_address', self.get_ping_host_ip_address())
 
     def set_ping_host_ip_address(self, ip_address):
         """
@@ -331,6 +383,7 @@ class InternetSentinel(QDialog):
 
         if response == QMessageBox.Ok:
             if self.ui.notificationsCheckBox.isChecked():
+                os.system('sudo sh -c "echo 255 > /sys/class/backlight/rpi_backlight/brightness"')
                 self.speak("Rebooting Internet Sentinel Device")
             os.system("sudo /sbin/reboot")
 
@@ -352,6 +405,7 @@ class InternetSentinel(QDialog):
         Returns: None
 
         """
+        os.system('sudo sh -c "echo 255 > /sys/class/backlight/rpi_backlight/brightness"')
         self.settings.setValue('settings/reset_delay', self.ui.resetDelaySpinBox.value())
         self.settings.setValue('settings/download_floor', self.ui.downloadFloorSpinBox.value())
         self.settings.setValue('settings/test_frequency', self.ui.testFrequencySpinBox.value())
@@ -371,13 +425,10 @@ if __name__ == "__main__":
     QCoreApplication.setApplicationName(APPLICATION_NAME)
 
     app = QApplication(sys.argv)
-    file = QFile(":/dark.qss")
-    file.open(QFile.ReadOnly | QFile.Text)
-    stream = QTextStream(file)
-    app.setStyleSheet(stream.readAll())
+
     #QApplication.setStyle(QStyleFactory.create("Cleanlooks"))
     #QApplication.setPalette(QApplication.style().standardPalette())
-    window = InternetSentinel(None)
+    window = InternetSentinel(application=app, parent=None)
     window.show()
     sys.exit(app.exec_())
 
