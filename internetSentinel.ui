@@ -61,6 +61,7 @@
            <property name="font">
             <font>
              <family>Arial</family>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -122,6 +123,7 @@
            <property name="font">
             <font>
              <family>Arial</family>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -177,6 +179,7 @@
            <property name="font">
             <font>
              <family>Arial</family>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -247,6 +250,7 @@
          <property name="font">
           <font>
            <family>Arial</family>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -390,6 +394,7 @@
          <property name="font">
           <font>
            <family>Arial</family>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -490,21 +495,27 @@
        <item>
         <widget class="QLabel" name="configLabel">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>20</height>
+           <height>16777215</height>
           </size>
          </property>
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>13</pointsize>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -914,6 +925,7 @@
          <property name="font">
           <font>
            <family>Arial</family>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -926,12 +938,12 @@
          </property>
         </widget>
        </item>
-       <item alignment="Qt::AlignTop">
+       <item>
         <widget class="QPlainTextEdit" name="statusPlainTextEdit">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>140</height>
+           <height>150</height>
           </size>
          </property>
          <property name="font">

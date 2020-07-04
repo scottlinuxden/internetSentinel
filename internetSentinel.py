@@ -5,6 +5,7 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import breeze_resources
 
 import internetSpeedTest
 import resetInternetConnection
@@ -82,6 +83,10 @@ class InternetSentinel(QDialog):
         self.setWindowTitle("%s (Version: %s)" % (APPLICATION_NAME, VERSION))
         self.settings = QSettings()
 
+        os.system('sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"')
+        self.ui.speedometerWidget.set_NeedleColor(255,255,255,255)
+        self.ui.speedometerWidget.set_CenterPointColor(0,0,255)
+        self.ui.speedometerWidget.set_ScaleValueColor(255,255,255,255)
         self.ui.speedometerWidget.value_min = 0
         self.ui.speedometerWidget.value_max = 100
         self.ui.speedometerWidget.scala_main_count = 10
@@ -366,8 +371,12 @@ if __name__ == "__main__":
     QCoreApplication.setApplicationName(APPLICATION_NAME)
 
     app = QApplication(sys.argv)
-    QApplication.setStyle(QStyleFactory.create("Cleanlooks"))
-    QApplication.setPalette(QApplication.style().standardPalette())
+    file = QFile(":/dark.qss")
+    file.open(QFile.ReadOnly | QFile.Text)
+    stream = QTextStream(file)
+    app.setStyleSheet(stream.readAll())
+    #QApplication.setStyle(QStyleFactory.create("Cleanlooks"))
+    #QApplication.setPalette(QApplication.style().standardPalette())
     window = InternetSentinel(None)
     window.show()
     sys.exit(app.exec_())
