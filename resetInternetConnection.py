@@ -60,6 +60,11 @@ class Worker(QThread):
         """
         self.wait()
 
+    def speak(self, text):
+        language = '-ven-us'
+        command = 'espeak -ven-us -g6 -s150 "' + text + '" --stdout | aplay'
+        os.system(command)
+
     def get_elapsed_time(self, start_time):
         """
         Get elapsed time from current time - start time snapshot
@@ -71,6 +76,14 @@ class Worker(QThread):
         """
         delta_time = time.time() - start_time
         return delta_time
+
+    def set_test_server_ip_address(self, test_server_ip_address):
+        """
+        Set the test server ip address if it is changed on GUI
+        :param test_server_ip_address: ip address of internet server to ping
+        :return: None
+        """
+        self.test_server_ip_address = test_server_ip_address
 
     def set_reset_delay(self, reset_delay):
         """
@@ -93,12 +106,12 @@ class Worker(QThread):
         self.alert_handler.emit("SUCCESS: Stopping internet connection with %d second delay" % self.reset_delay)
         self.test_status_handler.emit(0.0, 0.0, 0.0, 'internet reset')
         if self.notifications:
-            os.system('espeak -ven-us -g6 -s150 "Stopping internet connection" 2>/dev/null')
+            self.speak('Stopping internet connection')
         gpio.output(23, gpio.HIGH)
         time.sleep(self.reset_delay)
         self.alert_handler.emit("SUCCESS: Starting internet connection")
         if self.notifications:
-            os.system('espeak -ven-us -g6 -s150 "Starting internet connection" 2>/dev/null')
+            self.speak('Starting internet connection')
         gpio.output(23, gpio.LOW)
 
         start_time = time.time()
@@ -130,6 +143,5 @@ class Worker(QThread):
         Returns: None
 
         """
-
         self.reset_internet_connection()
         gpio.cleanup(23)

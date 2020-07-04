@@ -94,8 +94,8 @@ class InternetSentinel(QDialog):
 
         self.setWindowTitle("%s (Version: %s)" % (APPLICATION_NAME, VERSION))
 
-        self.ui.speedometerWidget.set_NeedleColor(0,0,255,255)
-        self.ui.speedometerWidget.set_CenterPointColor(0,0,255)
+        self.ui.speedometerWidget.set_NeedleColor(255,255,255,255)
+        self.ui.speedometerWidget.set_CenterPointColor(255,255,255)
         self.ui.speedometerWidget.set_ScaleValueColor(255,255,255,255)
         self.ui.speedometerWidget.value_min = 0
         self.ui.speedometerWidget.value_max = 100
@@ -167,12 +167,14 @@ class InternetSentinel(QDialog):
         self.application.setStyleSheet(stream.readAll())
         file.close()
         if name.upper() == 'DARK':
-            self.ui.speedometerWidget.set_NeedleColor(0, 0, 255, 255)
+            self.ui.speedometerWidget.set_NeedleColor(255, 255, 255, 255)
+            self.ui.speedometerWidget.set_CenterPointColor(255, 255, 255)
             self.ui.speedometerWidget.set_ScaleValueColor(255, 255, 255, 255)
             self.ui.speedometerWidget.set_DisplayValueColor(255, 255, 255, 255)
             os.system('sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"')
         else:
             self.ui.speedometerWidget.set_NeedleColor(0, 0, 0, 255)
+            self.ui.speedometerWidget.set_CenterPointColor(0, 0, 0)
             self.ui.speedometerWidget.set_ScaleValueColor(0, 0, 0, 255)
             self.ui.speedometerWidget.set_DisplayValueColor(0, 0, 0, 255)
             os.system('sudo sh -c "echo 255 > /sys/class/backlight/rpi_backlight/brightness"')
@@ -203,7 +205,7 @@ class InternetSentinel(QDialog):
         self.settings.setValue('settings/reset_delay', self.ui.resetDelaySpinBox.value())
 
     def download_floor_changed(self):
-        red_scale = float(self.ui.downloadFloorSpinBox.value()) / 100.0
+        red_scale = 1.0 - (float(self.ui.downloadFloorSpinBox.value()) / 100.0)
 
         self.ui.speedometerWidget.set_scale_polygon_colors([[0.00, Qt.green],
                                                             [red_scale / 2.5, Qt.yellow],
@@ -219,6 +221,8 @@ class InternetSentinel(QDialog):
         """
         ping_host = self.get_ping_host_ip_address()
         self.speed_test_worker.set_ping_host(ping_host)
+        if self.reset_internet_connection_worker and self.internet_offline:
+            self.reset_internet_connection_worker.set_test_server_ip_address(self.get_ping_host_ip_address())
         self.settings.setValue('settings/ping_host_ip_address', self.get_ping_host_ip_address())
 
     def set_ping_host_ip_address(self, ip_address):
@@ -300,6 +304,7 @@ class InternetSentinel(QDialog):
         self.ui.downloadLabel.setText("%.2f" % download_speed)
         self.ui.uploadLabel.setText("%.2f" % upload_speed)
         self.ui.pingLabel.setText("%.2f" % ping_time)
+        print("Download speed: %d" % int(download_speed))
         if int(download_speed) > self.ui.speedometerWidget.get_value_max():
             self.ui.speedometerWidget.set_MaxValue(int(download_speed))
         self.ui.speedometerWidget.update_value(int(download_speed))
@@ -329,9 +334,9 @@ class InternetSentinel(QDialog):
             self.internet_offline = True
             self.ui.lastNetworkIssueDateLabel.setText(datetime.datetime.today().strftime("%m/%d/%Y %H:%M:%S"))
             self.set_alert("ERROR: Internet connection is down")
+            self.email_alert("Internet connection is down, resetting internet connection.")
             if self.ui.notificationsCheckBox.isChecked():
                 self.speak("Internet connection is down, resetting internet connection")
-                self.email_alert("Internet connection is down, resetting internet connection.")
                 self.reset_internet_connection()
 
         elif server == 'internet speed test':
@@ -355,9 +360,9 @@ class InternetSentinel(QDialog):
                 self.ui.internetStatusLabel.setText('ON-LINE')
                 if self.internet_offline:
                     self.internet_offline = False
+                    self.email_alert("Internet is back on-line")
                     if self.ui.notificationsCheckBox.isChecked():
                         self.speak("Internet is back on-line")
-                        self.email_alert("Internet is back on-line")
 
     def speak(self, text):
         language = '-ven-us'
@@ -392,7 +397,8 @@ class InternetSentinel(QDialog):
         """
         response = QMessageBox.information(self,
                                            "Reboot Confirmation",
-                                           "Rebooting this device will stop Internet monitoring and power cycle this device",
+                                           "Rebooting this device will stop Internet monitoring and power cycle "
+                                           "this device",
                                            QMessageBox.Ok |
                                            QMessageBox.Cancel,
                                            QMessageBox.Ok)

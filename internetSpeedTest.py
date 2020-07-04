@@ -111,7 +111,9 @@ class Worker(QThread):
 
         if ping.host(self.ping_host_ip_address) == 'found':
 
-            if run_immediately or self.internet_down or (self.get_elapsed_time() >= (self.test_frequency * 60)):
+            self.internet_down = False
+
+            if run_immediately or (self.get_elapsed_time() >= (self.test_frequency * 60)):
 
                 self.alert_handler.emit("SUCCESS: Ping host: %s was successfully contacted, starting speed test..." %
                                         self.ping_host_ip_address)
@@ -133,7 +135,6 @@ class Worker(QThread):
                                         (server, download_speed, upload_speed, ping_time))
                 self.test_results_handler.emit(download_speed, upload_speed, ping_time, server)
                 self.start_time = time.time()
-                self.internet_down = False
 
             else:
                 # delay 10 seconds before next ping
