@@ -106,11 +106,13 @@ class InternetSentinel(QDialog):
         self.ui.speedometerWidget.set_enable_value_text()
         self.ui.speedometerWidget.set_gauge_color_inner_radius_factor(917)
         self.ui.speedometerWidget.set_gauge_color_outer_radius_factor(1000)
-        self.ui.speedometerWidget.set_scale_polygon_colors([[.00, Qt.green],
-                                                            [.1, Qt.yellow],
-                                                            [.15, Qt.red],
-                                                            [1, Qt.transparent]])
         self.ui.speedometerWidget.set_DisplayValueColor(255,255,255,255)
+        # self.ui.speedometerWidget.set_scale_polygon_colors([[.00, Qt.green],
+        #                                                     [.1, Qt.yellow],
+        #                                                     [.15, Qt.red],
+        #                                                     [1, Qt.transparent]])
+
+
         self.ui.themeComboBox.currentTextChanged.connect(self.theme_changed)
         self.ui.resetDelaySpinBox.setValue(self.settings.value('settings/reset_delay', 30, type=int))
         self.ui.resetDelaySpinBox.setMinimum(15)
@@ -118,6 +120,14 @@ class InternetSentinel(QDialog):
         self.ui.downloadFloorSpinBox.setValue(self.settings.value('settings/download_floor', 10, type=int))
         self.ui.downloadFloorSpinBox.setMinimum(1)
         self.ui.downloadFloorSpinBox.valueChanged.connect(self.download_floor_changed)
+
+        red_scale = float(self.ui.downloadFloorSpinBox.value()) / 100.0
+
+        self.ui.speedometerWidget.set_scale_polygon_colors([[0.00, Qt.green],
+                                                            [red_scale / 2.5, Qt.yellow],
+                                                            [red_scale, Qt.red],
+                                                            [1, Qt.transparent]])
+
         self.ui.testFrequencySpinBox.setMinimum(1)
         self.ui.testFrequencySpinBox.setValue(self.settings.value('settings/test_frequency', 1, type=int))
         self.ui.testFrequencySpinBox.valueChanged.connect(self.test_frequency_changed)
@@ -193,6 +203,12 @@ class InternetSentinel(QDialog):
         self.settings.setValue('settings/reset_delay', self.ui.resetDelaySpinBox.value())
 
     def download_floor_changed(self):
+        red_scale = float(self.ui.downloadFloorSpinBox.value()) / 100.0
+
+        self.ui.speedometerWidget.set_scale_polygon_colors([[0.00, Qt.green],
+                                                            [red_scale / 2.5, Qt.yellow],
+                                                            [red_scale, Qt.red],
+                                                            [1, Qt.transparent]])
         self.settings.setValue('settings/download_floor', self.ui.downloadFloorSpinBox.value())
 
     def ping_host_changed(self):
