@@ -1,11 +1,11 @@
-Internet Sentinel Application for the Raspberry Pi (RPI) that monitors the Internet connection
+# Internet Sentinel Application for the Raspberry Pi (RPI) that monitors the Internet connection
 in the Local Area Network and if not ON-LINE (Internet Server ping) will power cycle the cable
 modem via the connected IoT Power Relay from Digital-loggers.com.  Will aslo performs a speed test
 of your Internet connection and will power cycle your cable modem if the download speed reported is
 below a threshold to attempt to get a faster connection to the ISP. Voice notifications are possible
 with a set of speakers that connect to the headphone jack of the RPI.
 
-Equipment list (Amazon was chosen since they had all the parts needed. Parts are available elsewhere.)
+## Equipment list (Amazon was chosen since they had all the parts needed. Parts are available elsewhere.)
 Raspberry Pi 4 - https://www.amazon.com/dp/B07TLDTRYF/ref=cm_sw_em_r_mt_dp_U_DtCZEb9FHF451
 32 GB Micro SD Card - https://www.amazon.com/dp/B06XWN9Q99/ref=cm_sw_em_r_mt_dp_U_5ECZEbB89KJWA
 RPI Touchscreen Case - https://www.amazon.com/dp/B07WXK38YM/ref=cm_sw_em_r_mt_dp_U_vuCZEb07MR7HY
@@ -14,19 +14,22 @@ Jumper wires (female connector and male pin on other end) - https://www.amazon.c
 Speakers - https://www.amazon.com/dp/B07SZ8CVWB/ref=cm_sw_em_r_mt_dp_U_GsCZEbZHWPGDJ
 IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pvCZEbP4FEGWJ
 
+## Hardware Construction
 See link below for more info and how to connect the RPI to the IoT Power Relay
 https://www.digital-loggers.com/iotfaqs.html
 
 Remove the IoT Power Relay green phoenix connector.  The entire light green connector block pulls out to expose
 screw terminals that need loosened and male jumper wire pin inserted. Connect the two jumper wires (male jumper wire pin)
 to the connector via the screw terminals and connect the female ends of the wires to the RPI GPIO header as
-described below (See raspberrypi_gpio_pinout.png for diagram of exact location of GPIO header pins):
+described below (See diagram below of exact location of GPIO header pins):
 Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
 Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix
 connector.
+![Raspberry Pi Pinout Diagram](assets/AnalogGaugeWidgetDemo.JPG?raw=true "AnalogGaugeWidgetDemo")
 
 Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
 
+## Software Installation
 Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
 /home/pi/internetSentinel on the Raspberry Pi.
 
