@@ -25,7 +25,7 @@ described below (See diagram below of exact location of GPIO header pins):
 Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
 Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix
 connector.
-![Raspberry Pi Pinout Diagram](assets/AnalogGaugeWidgetDemo.JPG?raw=true "AnalogGaugeWidgetDemo")
+![Raspberry Pi Pinout Diagram](assets/raspberrypi_gpio_pinout.png?raw=true "RaspberryPiPinoutDiagram")
 
 Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
 
