@@ -62,8 +62,8 @@ https://www.digital-loggers.com/iotfaqs.html
 screw terminals that need loosened and male jumper wire pin inserted. 
 * Connect the two jumper wires (male jumper wire pin) to the connector via the screw terminals and connect the female 
 ends of the wires to the RPI GPIO header as described below (See diagram below of exact location of GPIO header pins):
-  * Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
-  * Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix
+  * Connect the RPI header BCM23 pin to the + side of the IoT Power Relay green phoenix connector.
+  * Connect RPI header ground pin 14 next to and to the left of BCM23 to the - side of the IoT Power Relay green phoenix
 connector.
 ![Raspberry Pi Pinout Diagram](assets/raspberrypi_gpio_pinout.png?raw=true "RaspberryPiPinoutDiagram")
 
