@@ -112,7 +112,7 @@ wireless access point, router, or switch via CAT5e or higher Wired Ethernet cabl
   * /sbin/reboot
 
 ## Acknowledgements
-I would like to mention the following people and software used in thie application:
+I would like to mention the following people whose software was used in this application:
 * [Stefan Holstein Analogue Gauge Widget PyQt](https://github.com/StefanHol/AnalogGaugeWidgetPyQt)
 * [Alexander Huszagh Breeze StyleSheets](https://github.com/Alexhuszagh/BreezeStyleSheets)
 * [Matt Martz Speedtest-cli](https://github.com/sivel/speedtest-cli)
