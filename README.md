@@ -98,7 +98,9 @@ Save the file by depressing Ctrl-X
 reboot the RPI via the following command:
 /sbin/reboot
 
-## Software Credits
+## Acknowledgements
 I would like to mention the following people and software used in thie application:
 * [Stefan Holstein Analogue Gauge Widget PyQt][https://github.com/StefanHol/AnalogGaugeWidgetPyQt]
+* [Alexander Huszagh Breeze StyleSheets][https://github.com/Alexhuszagh/BreezeStyleSheets]
+* [Matt Martz Speedtest-cli][https://github.com/sivel/speedtest-cli]
 
