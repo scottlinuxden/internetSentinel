@@ -45,8 +45,8 @@ IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pv
 
 # Hardware Construction
 ## Raspberry Pi and Touchscreen Display Assembly
-* Install Raspbian on the 32 GB Micro SD card using the following software:
-  [Raspberry Pi Imager software][https://www.raspberrypi.org/downloads/]
+* Install Raspbian on the 32 GB Micro SD card using the following Windows or Mac OS X software:
+  [Raspberry Pi Imager software](https://www.raspberrypi.org/downloads/)
 * Following the directions to install the RPI in the RPI Touchscreen case with the Touchscreen Display.
 ## IoT Power Relay
 See link below for more info on the IoT Power Relay
