@@ -70,6 +70,7 @@ connector.
 
 ### Raspberry Pi GPIO Pin and IoT Power Relay Connections
 The pins marked by a red box in the diagram are connected via the jumper wires to the IoT Power Relay:
+
 ![Raspberry Pi Pinout Diagram](assets/raspberrypi_gpio_pinout.png?raw=true "RaspberryPiPinoutDiagram")
 
 # Software Installation
