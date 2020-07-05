@@ -121,8 +121,8 @@ wireless access point, router, or switch via CAT5e or higher Wired Ethernet cabl
   * @/usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
   * Save the file by depressing Ctrl-X
 
-* reboot the RPI via the following command:
-  * /sbin/reboot
+* Reboot the RPI via the following command:
+  * sudo /sbin/reboot
 
 ## Acknowledgements
 I would like to mention the following people whose software was used in this application:
