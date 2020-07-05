@@ -62,54 +62,54 @@ https://www.digital-loggers.com/iotfaqs.html
 screw terminals that need loosened and male jumper wire pin inserted. 
 * Connect the two jumper wires (male jumper wire pin) to the connector via the screw terminals and connect the female 
 ends of the wires to the RPI GPIO header as described below (See diagram below of exact location of GPIO header pins):
-Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
-Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix
+  * Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
+  * Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix
 connector.
 ![Raspberry Pi Pinout Diagram](assets/raspberrypi_gpio_pinout.png?raw=true "RaspberryPiPinoutDiagram")
 
-Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
+* Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
 
-Complete the Internet Sentinel software installation steps below.
+* Complete the Internet Sentinel software installation steps below.
 
 # Software Installation
-Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
+* Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
 /home/pi/internetSentinel on the Raspberry Pi.
 
-The following application dependent packages need to be installed by performing the following:
-sudo apt-get update
-sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
-sudo apt-get install espeak
-sudo pip3 install speedtest-cli
-sudo pip3 install num2words
+* The following application dependent packages need to be installed by performing the following:
+  * sudo apt-get update
+  * sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
+  * sudo apt-get install espeak
+  * sudo pip3 install speedtest-cli
+  * sudo pip3 install num2words
 
-Install the desktop icon application launcher:
-cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
+* Install the desktop icon application launcher:
+  * cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
 
-Select the File Manager Icon (looks like a folder) in the desktop menubar
-Select Edit on File Manager menu bar
-Select Preferences menu item
-Select General Tab
-Select checkbox next to "Do not ask option on executable launch"
-Exit out of File Manager
+* Select the File Manager Icon (looks like a folder) in the desktop menubar
+  * Select Edit on File Manager menu bar
+  * Select Preferences menu item
+  * Select General Tab
+  * Select checkbox next to "Do not ask option on executable launch"
+  * Exit out of File Manager
 
-Configure RPI to wait for network on-line before booting.  Make sure you have the RPI connected to a LAN
+* Configure RPI to wait for network on-line before booting.  Make sure you have the RPI connected to a LAN
 wireless access point, router, or switch via CAT5e or higher Wired Ethernet cable then:
-Select Boot-Options menu
-Select Wait for Network at Boot
-Select Yes
+  * Select Boot-Options menu
+  * Select Wait for Network at Boot
+  * Select Yes
 
-Add Internet Sentinel to startup when RPI boots by doing the following:
-At command prompt enter the following to edit the autostart file:
-sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
-Add the following line to bottom of the file:
-@xset s off
-@xset -dpms
-@xset s noblank
-@/usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
-Save the file by depressing Ctrl-X
+* Add Internet Sentinel to startup when RPI boots by doing the following:
+  * At command prompt enter the following to edit the autostart file:
+  * sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+  * Add the following line to bottom of the file:
+  * @xset s off
+  * @xset -dpms
+  * @xset s noblank
+  * @/usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
+  * Save the file by depressing Ctrl-X
 
-reboot the RPI via the following command:
-/sbin/reboot
+* reboot the RPI via the following command:
+  * /sbin/reboot
 
 ## Acknowledgements
 I would like to mention the following people and software used in thie application:
