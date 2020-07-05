@@ -1,5 +1,5 @@
 # Internet Sentinel Application for the Raspberry Pi (RPI) that monitors the Internet connection
-![Internet Sentinel Applicatin]{assets/internet_sentinel_screenshot.png?raw=true "Internet Sentinel Screenshot")
+![Internet Sentinel Applicatin](assets/internet_sentinel_screenshot.png?raw=true "Internet Sentinel Screenshot")
 in the Local Area Network and if not ON-LINE (Internet Server ping) will power cycle the cable
 modem via the connected IoT Power Relay from Digital-loggers.com.  Will aslo performs a speed test
 of your Internet connection and will power cycle your cable modem if the download speed reported is
