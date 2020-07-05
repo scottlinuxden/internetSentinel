@@ -45,23 +45,31 @@ IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pv
 
 # Hardware Construction
 ## Raspberry Pi and Touchscreen Display Assembly
-* Install Raspbian on the 32 GB Micro SD card using the following Windows or Mac OS X software:
+* Install Raspbian OS on the 32 GB Micro SD card using the following Windows or Mac OS X software:
   [Raspberry Pi Imager software](https://www.raspberrypi.org/downloads/)
-* Following the directions to install the RPI in the RPI Touchscreen case with the Touchscreen Display.
-## IoT Power Relay
+* Choose the Raspberry Pi OS 32-bit version to install on the Micro SD card
+* Insert the Micro SD card into the Raspberry Pi Micro SD card slot
+* Following the [directions](https://smarticase.com/pages/smartipi-touch-2-setup-1) to install the RPI in the 
+RPI Touchscreen case with the Touchscreen Display.
+* Connect the speakers to a RPI USB port and headphone jack
+* Connect the IoT Power Relay to the RPI as described below
+
+## IoT Power Relay Connections
 See link below for more info on the IoT Power Relay
 https://www.digital-loggers.com/iotfaqs.html
 
-Remove the IoT Power Relay green phoenix connector.  The entire light green connector block pulls out to expose
-screw terminals that need loosened and male jumper wire pin inserted. Connect the two jumper wires (male jumper wire pin)
-to the connector via the screw terminals and connect the female ends of the wires to the RPI GPIO header as
-described below (See diagram below of exact location of GPIO header pins):
+* Remove the IoT Power Relay green phoenix connector.  The entire light green connector block pulls out to expose
+screw terminals that need loosened and male jumper wire pin inserted. 
+* Connect the two jumper wires (male jumper wire pin) to the connector via the screw terminals and connect the female 
+ends of the wires to the RPI GPIO header as described below (See diagram below of exact location of GPIO header pins):
 Connect the RPI header GPIO23 pin to the + side of the IoT Power Relay green phoenix connector.
 Connect RPI header ground pin 14 next to and to the left of GPIO23 to the - side of the IoT Power Relay green phoenix
 connector.
 ![Raspberry Pi Pinout Diagram](assets/raspberrypi_gpio_pinout.png?raw=true "RaspberryPiPinoutDiagram")
 
 Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
+
+Complete the Internet Sentinel software installation steps below.
 
 # Software Installation
 Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
