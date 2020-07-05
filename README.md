@@ -7,7 +7,8 @@ IoT Power Relay from Digital-loggers.com.  Will aslo performs a speed test of yo
 cycle your cable modem if the download speed reported is below a threshold to attempt to get a faster connection to 
 the ISP. Voice notifications are possible with a set of speakers that connect to the headphone jack of the RPI.
 
-## Equipment list (Amazon was chosen since they had all the parts needed. Parts are available elsewhere.)
+## Equipment list
+(Amazon was chosen since they had all the parts needed. Parts are available elsewhere.)
 Raspberry Pi 4 - https://www.amazon.com/dp/B07TLDTRYF/ref=cm_sw_em_r_mt_dp_U_DtCZEb9FHF451
 32 GB Micro SD Card - https://www.amazon.com/dp/B06XWN9Q99/ref=cm_sw_em_r_mt_dp_U_5ECZEbB89KJWA
 RPI Touchscreen Case - https://www.amazon.com/dp/B07WXK38YM/ref=cm_sw_em_r_mt_dp_U_vuCZEb07MR7HY
