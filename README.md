@@ -45,6 +45,9 @@ IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pv
 
 # Hardware Construction
 ## Raspberry Pi and Touchscreen Display Assembly
+### Front View
+![Internet Sentinel Front View](assets/internet_sentinel_hardware_front_view.png?raw=true "InternetSentinelFrontView")
+
 ### Top View
 ![Internet Sentinel Top View](assets/internet_sentinel_hardware_top_view.png?raw=true "InternetSentinelTopView")
 
