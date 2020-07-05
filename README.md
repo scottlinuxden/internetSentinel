@@ -3,15 +3,16 @@
 
 Internet Sentinel is a software and hardware solution that monitors the Internet connection in a Local Area Network 
 and if not ON-LINE (checked via Internet Server ping) will power cycle an attached cable modem via the connected 
-IoT Power Relay from Digital-loggers.com.  Will aslo performs a speed test of your Internet connection and will power 
-cycle your cable modem if the download speed reported is below a threshold to attempt to get a faster connection to 
-the ISP. Voice notifications are possible with a set of speakers that connect to the headphone jack of the RPI.
+IoT Power Relay from Digital-loggers.com.  Also performs a speed test of your Internet connection and will power 
+cycle your cable modem if the download speed reported is below a threshold.  This will attempt to get a faster 
+connection to the ISP. Voice notifications are possible with a set of speakers that connect to the headphone jack 
+of the RPI.
 
 ## Features
-* Internet Service Monitoring (Power Cycles attached cable modem if any of the following is true)
+* Internet Service Monitoring (Power Cycles attached cable modem if any of the following is true):
   * No ping response from configurable Internet Server (Google 8.0.8.8 is default)
   * Internet speed test to best closest server is below a download floor threshold in Mbps
-* Internet Speed Test with the following statistics reported
+* Internet Speed Test with the following statistics reported:
   * Ping time in milliseconds
   * Download speed in Mbps
   * Upload speed in Mbps
@@ -21,8 +22,8 @@ the ISP. Voice notifications are possible with a set of speakers that connect to
   * Date/Time of the Last issue with the Internet connection
   * Current status of the Internet Sentinel Device such as conducting a speed test or pinging Internet Server
 * Supported User Interface Themes
-  * Dark
-  * Light
+  * Dark (display backlight dimmed to 45%)
+  * Light (full display backlight)
 * Manual Controls to:
   * Reset the Internet Connection
   * Reboot the Internet Sentinel Device
@@ -34,7 +35,7 @@ the ISP. Voice notifications are possible with a set of speakers that connect to
   * Frequency in seconds to test the speed of the Internet connection
   
 # Equipment list
-(Amazon was chosen since they had all the parts needed. Parts are available elsewhere.)
+(Amazon was chosen since they had all the parts needed however parts are available elsewhere.)
 Raspberry Pi 4 - https://www.amazon.com/dp/B07TLDTRYF/ref=cm_sw_em_r_mt_dp_U_DtCZEb9FHF451
 32 GB Micro SD Card - https://www.amazon.com/dp/B06XWN9Q99/ref=cm_sw_em_r_mt_dp_U_5ECZEbB89KJWA
 RPI Touchscreen Case - https://www.amazon.com/dp/B07WXK38YM/ref=cm_sw_em_r_mt_dp_U_vuCZEb07MR7HY
@@ -54,28 +55,27 @@ IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pv
 ### Rear View
 ![Internet Sentinel Rear View](assets/internet_sentinel_hardware_rear_view.png?raw=true "InternetSentinelRearView")
 
-* Install Raspbian OS on the 32 GB Micro SD card using the following Windows or Mac OS X software:
-  [Raspberry Pi Imager software](https://www.raspberrypi.org/downloads/)
+* Install Raspbian OS on the 32 GB Micro SD card using the following Windows or Mac OS X [Raspberry Pi Imager software](https://www.raspberrypi.org/downloads/)
 * Choose the Raspberry Pi OS 32-bit version to install on the Micro SD card
 * Insert the Micro SD card into the Raspberry Pi Micro SD card slot
 * Following the [directions](https://smarticase.com/pages/smartipi-touch-2-setup-1) to install the RPI in the 
 RPI Touchscreen case with the Touchscreen Display.
-* Connect the speakers to a RPI USB port and headphone jack
-* Connect the IoT Power Relay to the RPI as described below
+* Connect the speakers to a RPI USB port and headphone jack.
+* Connect the IoT Power Relay to the RPI as described below in next section.
 
 ## IoT Power Relay Connections
-See link below for more info on the IoT Power Relay
-https://www.digital-loggers.com/iotfaqs.html
-
 * Remove the IoT Power Relay green phoenix connector.  The entire light green connector block pulls out to expose
-screw terminals that need loosened and male jumper wire pin inserted. 
+screw terminals that need loosened and male jumper wire pin of both wires inserted. 
 * Connect the two jumper wires (male jumper wire pin) to the connector via the screw terminals and connect the female 
 ends of the wires to the RPI GPIO header as described below (See diagram below of exact location of GPIO header pins):
-  * Connect the RPI header BCM23 pin to the + side of the IoT Power Relay green phoenix connector.
-  * Connect RPI header ground pin 14 next to and to the left of BCM23 to the - side of the IoT Power Relay green phoenix
+  * Connect the RPI header BCM 23 pin to the + side of the IoT Power Relay green phoenix connector.
+  * Connect RPI header ground pin 14 next to and to the left of BCM 23 to the - side of the IoT Power Relay green phoenix
 connector.
 * Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
-* Complete the Internet Sentinel software installation steps below.
+* Complete the Software Installation steps below.
+
+See link below for more info on the IoT Power Relay
+https://www.digital-loggers.com/iotfaqs.html
 
 ### Raspberry Pi GPIO Pin and IoT Power Relay Connections
 The pins marked by a red box in the diagram are connected via the jumper wires to the IoT Power Relay:
@@ -114,7 +114,7 @@ wireless access point, router, or switch via CAT5e or higher Wired Ethernet cabl
 * Add Internet Sentinel to startup when RPI boots by doing the following:
   * At command prompt enter the following to edit the autostart file:
   * sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
-  * Add the following line to bottom of the file:
+  * Add the following lines to bottom of the file:
   * @xset s off
   * @xset -dpms
   * @xset s noblank
