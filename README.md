@@ -98,3 +98,7 @@ Save the file by depressing Ctrl-X
 reboot the RPI via the following command:
 /sbin/reboot
 
+## Software Credits
+I would like to mention the following people and software used in thie application:
+* [Stefan Holstein Analogue Gauge Widget PyQt][https://github.com/StefanHol/AnalogGaugeWidgetPyQt]
+
