@@ -72,7 +72,6 @@ connector.
 The pins marked by a red box in the diagram are connected via the jumper wires to the IoT Power Relay:
 
 ![Raspberry Pi Pinout Diagram](assets/raspberrypi_gpio_pinout.png?raw=true "RaspberryPiPinoutDiagram")
-
 # Software Installation
 * Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
 /home/pi/internetSentinel on the Raspberry Pi.
