@@ -304,7 +304,7 @@ class InternetSentinel(QDialog):
         self.ui.downloadLabel.setText("%.2f" % download_speed)
         self.ui.uploadLabel.setText("%.2f" % upload_speed)
         self.ui.pingLabel.setText("%.2f" % ping_time)
-        print("Download speed: %d" % int(download_speed))
+
         if int(download_speed) > self.ui.speedometerWidget.get_value_max():
             self.ui.speedometerWidget.set_MaxValue(int(download_speed)+10)
         self.ui.speedometerWidget.update_value(int(download_speed))
