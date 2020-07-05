@@ -7,7 +7,33 @@ IoT Power Relay from Digital-loggers.com.  Will aslo performs a speed test of yo
 cycle your cable modem if the download speed reported is below a threshold to attempt to get a faster connection to 
 the ISP. Voice notifications are possible with a set of speakers that connect to the headphone jack of the RPI.
 
-## Equipment list
+## Features
+* Internet Service Monitoring (Power Cycles attached cable modem if any of the following is true)
+  * No ping response from configurable Internet Server (Google 8.0.8.8 is default)
+  * Internet speed test to best closest server is below a download floor threshold in Mbps
+* Internet Speed Test with the following statistics reported
+  * Ping time in milliseconds
+  * Download speed in Mbps
+  * Upload speed in Mbps
+  * Closest and Best Server to perform speed test
+* Overall Internet Connection Status
+  * Status of the Internet connection
+  * Date/Time of the Last issue with the Internet connection
+  * Current status of the Internet Sentinel Device such as conducting a speed test or pinging Internet Server
+* Supported User Interface Themes
+  * Dark
+  * Light
+* Manual Controls to:
+  * Reset the Internet Connection
+  * Reboot the Internet Sentinel Device
+* Configuration
+  * Download Floor value in Mbps at which time Internet Sentinel resets the Internet Connection
+  * Reset Delay in seconds to power off the cable modem before powering it on
+  * Voice Notifications setting to enable voice notifications of issue with Internet Connection
+  * Internet Server to ping to determine if Internet connection is On-line
+  * Frequency in seconds to test the speed of the Internet connection
+  
+# Equipment list
 (Amazon was chosen since they had all the parts needed. Parts are available elsewhere.)
 Raspberry Pi 4 - https://www.amazon.com/dp/B07TLDTRYF/ref=cm_sw_em_r_mt_dp_U_DtCZEb9FHF451
 32 GB Micro SD Card - https://www.amazon.com/dp/B06XWN9Q99/ref=cm_sw_em_r_mt_dp_U_5ECZEbB89KJWA
@@ -17,7 +43,7 @@ Jumper wires (female connector and male pin on other end) - https://www.amazon.c
 Speakers - https://www.amazon.com/dp/B07SZ8CVWB/ref=cm_sw_em_r_mt_dp_U_GsCZEbZHWPGDJ
 IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pvCZEbP4FEGWJ
 
-## Hardware Construction
+# Hardware Construction
 See link below for more info and how to connect the RPI to the IoT Power Relay
 https://www.digital-loggers.com/iotfaqs.html
 
@@ -32,7 +58,7 @@ connector.
 
 Insert the internet device (cable modem) plug into the IoT Power Relay outlet marked NORMALLY ON.
 
-## Software Installation
+# Software Installation
 Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
 /home/pi/internetSentinel on the Raspberry Pi.
 
