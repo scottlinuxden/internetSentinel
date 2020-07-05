@@ -1,4 +1,4 @@
-# Internet Sentinel Application for the Raspberry Pi (RPI)
+# Internet Sentinel Application
 ![Internet Sentinel Applicatin](assets/internet_sentinel_screenshot.png?raw=true "InternetSentinelScreenshot")
 
 Internet Sentinel is a software and hardware solution that monitors the Internet connection in a Local Area Network 
