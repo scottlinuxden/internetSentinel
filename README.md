@@ -44,7 +44,12 @@ Speakers - https://www.amazon.com/dp/B07SZ8CVWB/ref=cm_sw_em_r_mt_dp_U_GsCZEbZHW
 IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pvCZEbP4FEGWJ
 
 # Hardware Construction
-See link below for more info and how to connect the RPI to the IoT Power Relay
+## Raspberry Pi and Touchscreen Display Assembly
+* Install Raspbian on the 32 GB Micro SD card using the following software:
+  [Raspberry Pi Imager software][https://www.raspberrypi.org/downloads/]
+* Following the directions to install the RPI in the RPI Touchscreen case with the Touchscreen Display.
+## IoT Power Relay
+See link below for more info on the IoT Power Relay
 https://www.digital-loggers.com/iotfaqs.html
 
 Remove the IoT Power Relay green phoenix connector.  The entire light green connector block pulls out to expose
