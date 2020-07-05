@@ -1,5 +1,5 @@
-# Internet Sentinel Application
-![Internet Sentinel Applicatin](assets/internet_sentinel_screenshot.png?raw=true "InternetSentinelScreenshot")
+# Internet Sentinel
+![Internet Sentinel](assets/internet_sentinel_hardware_front_view.png?raw=true "InternetSentinel")
 
 Internet Sentinel is a software and hardware solution that monitors the Internet connection in a Local Area Network 
 and if not ON-LINE (checked via Internet Server ping) will power cycle an attached cable modem via the connected 
@@ -45,6 +45,12 @@ IoT Power Relay - https://www.amazon.com/dp/B00WV7GMA2/ref=cm_sw_em_r_mt_dp_U_pv
 
 # Hardware Construction
 ## Raspberry Pi and Touchscreen Display Assembly
+### Top View
+![Internet Sentinel Top View](assets/internet_sentinel_hardware_top_view.png?raw=true "InternetSentinelTopView")
+
+### Rear View
+![Internet Sentinel Rear View](assets/internet_sentinel_hardware_rear_view.png?raw=true "InternetSentinelRearView")
+
 * Install Raspbian OS on the 32 GB Micro SD card using the following Windows or Mac OS X software:
   [Raspberry Pi Imager software](https://www.raspberrypi.org/downloads/)
 * Choose the Raspberry Pi OS 32-bit version to install on the Micro SD card
@@ -74,6 +80,8 @@ The pins marked by a red box in the diagram are connected via the jumper wires t
 ![Raspberry Pi Pinout Diagram](assets/raspberrypi_gpio_pinout.png?raw=true "RaspberryPiPinoutDiagram")
 
 # Software Installation
+![Internet Sentinel Application](assets/internet_sentinel_screenshot.png?raw=true "InternetSentinelScreenshot")
+
 * Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
 /home/pi/internetSentinel on the Raspberry Pi.
 
