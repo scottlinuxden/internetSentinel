@@ -1,5 +1,6 @@
 # Internet Sentinel Application for the Raspberry Pi (RPI)
 ![Internet Sentinel Applicatin](assets/internet_sentinel_screenshot.png?raw=true "InternetSentinelScreenshot")
+
 Internet Sentinel is a software and hardware solution that monitors the Internet connection in a Local Area Network 
 and if not ON-LINE (checked via Internet Server ping) will power cycle an attached cable modem via the connected 
 IoT Power Relay from Digital-loggers.com.  Will aslo performs a speed test of your Internet connection and will power 
