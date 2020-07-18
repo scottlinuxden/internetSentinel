@@ -1,21 +1,31 @@
+import configparser
 import datetime
+import logging
+import logging.handlers
 import os
 import sys
 
+import keyring
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import internetSpeedTest
+import mailer
 import resetInternetConnection
 from Ui_internetSentinel import Ui_InternetSentinelDialog
+
 import breeze_resources
+# Needed to add this line so PyCharm does not remove
+# import above during "Optimize Imports" which is needed
+# for themes
+a = breeze_resources.qt_resource_data
 
 ORGANIZATION_NAME = 'LinXden'
 ORGANIZATION_DOMAIN = 'linxden.com'
 APPLICATION_NAME = 'Internet Sentinel'
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 PYTHON_DEBUG = False
 
@@ -71,6 +81,25 @@ class InternetSentinel(QDialog):
         """
 
         self.application = application
+        self.configuration = configparser.ConfigParser(inline_comment_prefixes='#')
+        self.configuration.read("internet_sentinel.ini")
+        self.ping_host_ip_address = self.configuration.get("INTERNET", "ping_test_server")
+        self.email_client = None
+        try:
+            self.smtp_server = self.configuration.get("EMAIL", 'smtp_server')
+            self.smtp_server_port = self.configuration.get("EMAIL", 'smtp_server_port')
+            self.email_login_username = keyring.get_password("internet_sentinel", "email_login_username")
+            self.email_login_password = keyring.get_password("internet_sentinel", "email_login_password")
+            self.email_client = mailer.EmailClient(self.smtp_server, self.smtp_server_port,
+                                                   self.email_login_username, self.email_login_password)
+        except:
+            pass
+
+        self.log_level = self.configuration.get('GENERAL', "logging_level")
+
+        log_filename = os.path.join(INSTALLATION_DIRECTORY, "internet_sentinel.log")
+
+        self._setup_enhanced_logging(log_filename)
 
         QDialog.__init__(self, parent)
         self.generate_pid_file()
@@ -90,7 +119,6 @@ class InternetSentinel(QDialog):
             self.settings.value('settings/theme', 'Dark', type=str)))
 
         theme = self.ui.themeComboBox.currentText()
-        self.set_theme(theme)
 
         self.setWindowTitle("%s (Version: %s)" % (APPLICATION_NAME, VERSION))
 
@@ -112,7 +140,6 @@ class InternetSentinel(QDialog):
         #                                                     [.15, Qt.red],
         #                                                     [1, Qt.transparent]])
 
-
         self.ui.themeComboBox.currentTextChanged.connect(self.theme_changed)
         self.ui.resetDelaySpinBox.setValue(self.settings.value('settings/reset_delay', 30, type=int))
         self.ui.resetDelaySpinBox.setMinimum(15)
@@ -133,12 +160,12 @@ class InternetSentinel(QDialog):
         self.ui.testFrequencySpinBox.valueChanged.connect(self.test_frequency_changed)
         self.ui.notificationsCheckBox.setChecked(self.settings.value('settings/notifications', True, type=bool))
         self.ui.notificationsCheckBox.stateChanged.connect(self.notifications_changed)
-        ping_host_ip_address = self.settings.value('settings/ping_host_ip_address', '8.8.8.8', type=str)
-        self.set_ping_host_ip_address(ping_host_ip_address)
-        self.ui.pingHostOctet4SpinBox.valueChanged.connect(self.ping_host_changed)
-        self.ui.pingHostOctet3SpinBox.valueChanged.connect(self.ping_host_changed)
-        self.ui.pingHostOctet2SpinBox.valueChanged.connect(self.ping_host_changed)
-        self.ui.pingHostOctet1SpinBox.valueChanged.connect(self.ping_host_changed)
+        # ping_host_ip_address = self.settings.value('settings/ping_host_ip_address', '8.8.8.8', type=str)
+        self.set_ping_host_ip_address(self.ping_host_ip_address)
+        # self.ui.pingHostOctet4SpinBox.valueChanged.connect(self.ping_host_changed)
+        # self.ui.pingHostOctet3SpinBox.valueChanged.connect(self.ping_host_changed)
+        # self.ui.pingHostOctet2SpinBox.valueChanged.connect(self.ping_host_changed)
+        # self.ui.pingHostOctet1SpinBox.valueChanged.connect(self.ping_host_changed)
 
         self.ui.pingLabel.setText('0')
         self.ui.downloadLabel.setText('0')
@@ -158,6 +185,8 @@ class InternetSentinel(QDialog):
         # self.set_alert("Checking internet in %d minute(s)" % int(self.ui.testFrequencySpinBox.value()))
         # QTimer.singleShot(int(self.ui.testFrequencySpinBox.value()) * 60 * 1000, self.conduct_speed_test)
         self.internet_offline = False
+        self.set_theme(theme)
+        self.download_floor_changed()
         self.conduct_speed_test()
 
     def set_theme(self, name):
@@ -204,6 +233,44 @@ class InternetSentinel(QDialog):
     def reset_delay_changed(self):
         self.settings.setValue('settings/reset_delay', self.ui.resetDelaySpinBox.value())
 
+    def _setup_enhanced_logging(self,
+                                filename,
+                                maximum_file_size_bytes=5 * 1024 * 1024,
+                                backup_logs=5):
+        """
+        Setup the python default logger to include additional elements in logged message
+        as well as log backups which rotate when the maximum log size is reached
+        :param filename: filename of the log file
+        :param maximum_file_size_bytes: maximum size of log file before it is closed and put in rotation
+        :param backup_logs: maximum number of backup logs maintained
+        :return: None
+        """
+
+        log_levels = {'DEBUG': logging.DEBUG,
+                      'INFO': logging.INFO,
+                      'WARNING': logging.WARNING,
+                      'ERROR': logging.ERROR,
+                      'CRITICAL': logging.CRITICAL}
+
+        try:
+            logging_level = log_levels[self.log_level.upper()]
+        except:
+            logging_level = logging.DEBUG
+
+        logging.basicConfig(filename=filename,
+                            filemode='w',
+                            format='[%(asctime)s:%(levelname)s:%(module)s:%(funcName)s:%(lineno)d]-%(message)s',
+                            level=logging_level,
+                            datefmt='%m/%d/%Y %I:%M:%S %p')
+
+        logger = logging.getLogger('EnhancedLogger')
+
+        # Add the log message handler to the logger
+        handler = logging.handlers.RotatingFileHandler(
+            filename, maxBytes=maximum_file_size_bytes, backupCount=backup_logs)
+
+        logger.addHandler(handler)
+
     def download_floor_changed(self):
         red_scale = 1.0 - (float(self.ui.downloadFloorSpinBox.value()) / 100.0)
 
@@ -234,11 +301,7 @@ class InternetSentinel(QDialog):
         Returns: None
 
         """
-        tokens = ip_address.split('.')
-        self.ui.pingHostOctet1SpinBox.setValue(int(tokens[0]))
-        self.ui.pingHostOctet2SpinBox.setValue(int(tokens[1]))
-        self.ui.pingHostOctet3SpinBox.setValue(int(tokens[2]))
-        self.ui.pingHostOctet4SpinBox.setValue(int(tokens[3]))
+        self.ui.pingHostIpAddressLabel.setText(ip_address)
 
     def get_ping_host_ip_address(self):
         """
@@ -246,10 +309,7 @@ class InternetSentinel(QDialog):
         Returns: Ping Host IP Address as a string
 
         """
-        ping_host_ip_address = self.ui.pingHostOctet1SpinBox.text() + '.' + \
-                               self.ui.pingHostOctet2SpinBox.text() + '.' + \
-                               self.ui.pingHostOctet3SpinBox.text() + '.' + \
-                               self.ui.pingHostOctet4SpinBox.text()
+        ping_host_ip_address = self.ui.pingHostIpAddressLabel.text()
         return ping_host_ip_address
 
     def conduct_speed_test(self):
@@ -350,7 +410,10 @@ class InternetSentinel(QDialog):
             if int(download_speed) < int(self.ui.downloadFloorSpinBox.text()):
                 self.ui.internetStatusLabel.setText('OFF-LINE')
                 self.internet_offline = True
-                self.set_alert("INFO: Download speed of %.2f is less than download floor, resetting internet connection")
+                self.set_alert(
+                    "INFO: Download speed of %.2f is less than download floor, resetting internet connection")
+                self.email_alert(
+                    "INFO: Download speed of %.2f is less than download floor, resetting internet connection")
                 if self.ui.notificationsCheckBox.isChecked():
                     self.speak("Download speed of %.2f is less than download floor, "
                                "resetting internet connection" % download_speed)
@@ -371,6 +434,11 @@ class InternetSentinel(QDialog):
 
     def email_alert(self, alert):
         pass
+        # if self.email_client:
+        #     try:
+        #         self.email_client.send_email(self.email_login_username, "Internet Sentinel Alert", alert)
+        #     except:
+        #         pass
 
     def reset_internet_connection(self):
         """

@@ -85,25 +85,21 @@ The pins marked by a red box in the diagram are connected via the jumper wires t
 # Software Installation
 ![Internet Sentinel Application](assets/internet_sentinel_screenshot.png?raw=true "InternetSentinelScreenshot")
 
+## Application Files
 * Install the Internet Sentinel application software in this repository by cloning the repository files to the folder
 /home/pi/internetSentinel on the Raspberry Pi.
 
+## Operating System and Python Dependent Files
 * The following application dependent packages need to be installed by performing the following:
   * sudo apt-get update
   * sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
   * sudo apt-get install espeak
+  * sudo apt-get install gnome-keyring
+  * sudo pip3 install secretstorage dbus-python
   * sudo pip3 install speedtest-cli
   * sudo pip3 install num2words
-
-* Install the desktop icon application launcher:
-  * cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
-
-* Select the File Manager Icon (looks like a folder) in the desktop menubar
-  * Select Edit on File Manager menu bar
-  * Select Preferences menu item
-  * Select General Tab
-  * Select checkbox next to "Do not ask option on executable launch"
-  * Exit out of File Manager
+  * sudo pip3 install keyring
+  * sudo apt-get install seahorse
 
 * Configure RPI to wait for network on-line before booting.  Make sure you have the RPI connected to a LAN
 wireless access point, router, or switch via CAT5e or higher Wired Ethernet cable then:
@@ -120,7 +116,35 @@ wireless access point, router, or switch via CAT5e or higher Wired Ethernet cabl
   * @xset s noblank
   * @/usr/bin/python3 /home/pi/internetSentinel/internetSentinel.py
   * Save the file by depressing Ctrl-X
+  
+## Desktop Launcher
+* Install the desktop icon application launcher:
+  * cp /home/pi/internetSentinel/internetSentinel.desktop /home/pi/Desktop
 
+* Select the File Manager Icon (looks like a folder) in the desktop menubar
+  * Select Edit on File Manager menu bar
+  * Select Preferences menu item
+  * Select General Tab
+  * Select checkbox next to "Do not ask option on executable launch"
+  * Exit out of File Manager
+
+## Optional Email Notification Configuration
+* Edit the file internet_sentinel.ini
+  * Edit the line 'smtp_server' by setting it to the email server hostname that you use for your email account
+  * Edit the line 'smtp_server_port' by setting it to the email server port that you use for your email account
+  
+* Enter the following command to add your gmail login username and password pair in the Gnome keyring
+  * python3 set_email_login_credentials.py
+    
+* Run the gnome keyring application below at a terminal prompt to set the default 'Login' keyring password
+  * seahorse
+  ![Seahorse](assets/seahorse_application_window.png?raw=true "InternetSentinel")
+  * Select the 'Login' keyring in list on left to change password
+  * Select the 'email_login_username' to change the email login server username
+  * Select the 'email_login_password' to change the email login server password
+* If you reboot the RPI you will need to enter this 'Login' keyring password then you can run Internet Sentinel
+
+## Final Steps
 * Reboot the RPI via the following command:
   * sudo /sbin/reboot
 

@@ -1,13 +1,13 @@
 import smtplib
 
 
-class GmailSendEmail:
+class EmailClient:
 
-    def __init__(self, gmail_login_username, gmail_login_password):
+    def __init__(self, smtp_server, smtp_port, gmail_login_username, gmail_login_password):
         self.gmail_login_username = gmail_login_username
         self.gmail_login_password = gmail_login_password
-        self.smtp_server = "smtp.gmail.com"
-        self.smtp_port = 587
+        self.smtp_server = smtp_server
+        self.smtp_port = smtp_port
 
     def send_email(self, recipient, subject, content):
         # Create Headers
@@ -30,7 +30,7 @@ class GmailSendEmail:
 
 
 if __name__ == '__main__':
-    sender = GmailSendEmail('gmail_email@gmail.com', 'password')
+    sender = EmailClient('smtp.server', 'smtp.port', 'gmail_email@gmail.com', 'password')
 
     sendTo = 'anotheremail@email.com'
     emailSubject = "Hello World"
