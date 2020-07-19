@@ -455,7 +455,7 @@ class InternetSentinel(QDialog):
         for message in self.email_messages:
             try:
                 self.email_client.send_email(self.email_login_username, "Internet Sentinel Alert",
-                                             self.email_messages(message))
+                                             message)
                 logging.info("Email sent with the alert: " % message)
             except:
                 logging.warning("Can not sent email based on configuration settings or server issue")
