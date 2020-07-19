@@ -345,6 +345,18 @@ class InternetSentinel(QDialog):
         cursor.setPosition(0)
         self.ui.statusPlainTextEdit.setTextCursor(cursor)
         self.ui.statusPlainTextEdit.insertPlainText(alert)
+        if 'ERROR:' in alert_message.upper():
+            logging.error(alert_message)
+        elif 'SUCCESS:' in alert_message.upper():
+            logging.info(alert_message)
+        elif 'WARNING:' in alert_message.upper():
+            logging.warning(alert_message)
+        elif 'DEBUG:' in alert_message.upper():
+            logging.debug(alert_message)
+        elif 'CRITICAL:' in alert_message.upper():
+            logging.critical(alert_message)
+        else:
+            logging.info(alert_message)
 
     @pyqtSlot(float, float, float, str)
     def update_test_results(self, download_speed, upload_speed, ping_time, server):
@@ -435,11 +447,12 @@ class InternetSentinel(QDialog):
 
     def email_alert(self, alert):
         pass
-        # if self.email_client:
-        #     try:
-        #         self.email_client.send_email(self.email_login_username, "Internet Sentinel Alert", alert)
-        #     except:
-        #         pass
+        if self.email_client:
+            try:
+                self.email_client.send_email(self.email_login_username, "Internet Sentinel Alert", alert)
+                logging.info("Email sent with the alert: " % alert)
+            except:
+                logging.warning("Can not sent email based on configuration settings or server issue")
 
     def reset_internet_connection(self):
         """
@@ -447,6 +460,7 @@ class InternetSentinel(QDialog):
         internet device such a cable modem
         Returns: None
         """
+        logging.info("Resetting internet connection")
         self.ui.lastNetworkIssueDateLabel.setText(datetime.datetime.today().strftime("%m/%d/%Y %H:%M:%S"))
         self.reset_internet_connection_worker = resetInternetConnection.Worker(
             reset_delay=int(self.ui.resetDelaySpinBox.text()),
@@ -476,6 +490,7 @@ class InternetSentinel(QDialog):
             if self.ui.notificationsCheckBox.isChecked():
                 os.system('sudo sh -c "echo 255 > /sys/class/backlight/rpi_backlight/brightness"')
                 self.speak("Rebooting Internet Sentinel Device")
+            logging.info("Rebooting Internet Sentinel")
             os.system("sudo /sbin/reboot")
 
     def generate_pid_file(self):
@@ -504,6 +519,7 @@ class InternetSentinel(QDialog):
         self.settings.setValue('settings/ping_host_ip_address', self.get_ping_host_ip_address())
         self.settings.setValue('settings/last_issue', self.ui.lastNetworkIssueDateLabel.text())
         self.settings.sync()
+        logging.info("Exiting Internet Sentinel")
 
 
 if __name__ == "__main__":
