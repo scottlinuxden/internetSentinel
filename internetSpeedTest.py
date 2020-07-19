@@ -117,24 +117,28 @@ class Worker(QThread):
 
                 self.alert_handler.emit("SUCCESS: Ping host: %s was successfully contacted, starting speed test..." %
                                         self.ping_host_ip_address)
-                s = speedtest.Speedtest()
-                s.get_servers(self.servers)
-                s.get_best_server()
-                s.download(threads=self.threads)
-                s.upload(threads=self.threads)
-                # s.results.share()
+                try:
+                    s = speedtest.Speedtest()
+                    s.get_servers(self.servers)
+                    s.get_best_server()
+                    s.download(threads=self.threads)
+                    s.upload(threads=self.threads)
+                    # s.results.share()
 
-                results_dict = s.results.dict()
-                download_speed = results_dict['download'] / (1000.0 * 1000.0)
-                upload_speed = results_dict['upload'] / (1000.0 * 1000.0)
-                ping_time = results_dict['ping']
-                server = results_dict['server']['sponsor']
+                    results_dict = s.results.dict()
+                    download_speed = results_dict['download'] / (1000.0 * 1000.0)
+                    upload_speed = results_dict['upload'] / (1000.0 * 1000.0)
+                    ping_time = results_dict['ping']
+                    server = results_dict['server']['sponsor']
 
-                self.alert_handler.emit("SUCCESS: Best Test Server: %s, Internet speed recorded: "
-                                        "Download %.2f Mbps, Upload %.2f Mbps, Ping Time: %.2f ms" %
-                                        (server, download_speed, upload_speed, ping_time))
-                self.test_results_handler.emit(download_speed, upload_speed, ping_time, server)
-                self.start_time = time.time()
+                    self.alert_handler.emit("SUCCESS: Best Test Server: %s, Internet speed recorded: "
+                                            "Download %.2f Mbps, Upload %.2f Mbps, Ping Time: %.2f ms" %
+                                            (server, download_speed, upload_speed, ping_time))
+                    self.test_results_handler.emit(download_speed, upload_speed, ping_time, server)
+                    self.start_time = time.time()
+                except:
+                    self.alert_handler.emit("ERROR: Internet speed test could not be conducted "
+                                            "due to issue with test server")
 
             else:
                 # delay 10 seconds before next ping

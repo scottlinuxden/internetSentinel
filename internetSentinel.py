@@ -367,6 +367,7 @@ class InternetSentinel(QDialog):
 
         if int(download_speed) > self.ui.speedometerWidget.get_value_max():
             self.ui.speedometerWidget.set_MaxValue(int(download_speed)+10)
+            self.ui.downloadFloorSpinBox.setMaximum(download_speed)
         self.ui.speedometerWidget.update_value(int(download_speed))
 
         if server == 'internet unrecoverable':
