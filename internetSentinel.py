@@ -85,6 +85,7 @@ class InternetSentinel(QDialog):
         self.configuration.read("internet_sentinel.ini")
         self.ping_host_ip_address = self.configuration.get("INTERNET", "ping_test_server")
         self.email_client = None
+        self.email_messages = []
         try:
             self.smtp_server = self.configuration.get("EMAIL", 'smtp_server')
             self.smtp_server_port = self.configuration.get("EMAIL", 'smtp_server_port')
@@ -439,6 +440,7 @@ class InternetSentinel(QDialog):
                     self.email_alert("Internet is back on-line")
                     if self.ui.notificationsCheckBox.isChecked():
                         self.speak("Internet is back on-line")
+                self.send_email_alerts()
 
     def speak(self, text):
         language = '-ven-us'
@@ -446,13 +448,19 @@ class InternetSentinel(QDialog):
         os.system(command)
 
     def email_alert(self, alert):
-        pass
         if self.email_client:
+            self.email_messages.append(alert)
+
+    def send_email_alerts(self):
+        for message in self.email_messages:
             try:
-                self.email_client.send_email(self.email_login_username, "Internet Sentinel Alert", alert)
-                logging.info("Email sent with the alert: " % alert)
+                self.email_client.send_email(self.email_login_username, "Internet Sentinel Alert",
+                                             self.email_messages(message))
+                logging.info("Email sent with the alert: " % message)
             except:
                 logging.warning("Can not sent email based on configuration settings or server issue")
+        del self.email_messages
+        self.email_messages = []
 
     def reset_internet_connection(self):
         """
